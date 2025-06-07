@@ -26,5 +26,9 @@ export const AppRoutes = {
     segments: ["welcome"],
     build: () => ({ pathname: "/(without-session)/welcome" }),
   },
-
+  SIGNIN: {
+    name: ScreenNames.SIGNIN,
+    segments: ["signIn"],
+    build: () => ({ pathname: "/(without-session)/signIn" }),
+  }
 } satisfies AppRoutesMap;

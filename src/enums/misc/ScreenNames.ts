@@ -4,5 +4,6 @@ export enum ScreenNames {
   INDEX = "index",
 
   /* (without-session) */
-  WELCOME = 'welcome'
+  WELCOME = 'welcome',
+  SIGNIN = 'signIn',
 }
