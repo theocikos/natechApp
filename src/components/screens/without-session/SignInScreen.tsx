@@ -1,14 +1,23 @@
-import { FC } from "react";
+import { useRouter } from "expo-router";
+import { FC, useCallback } from "react";
 import { StyleSheet } from "react-native";
 
-import { NTText, NTView } from "@/components/native";
+import { NTButton, NTText, NTView } from "@/components/native";
+import { AppRoutes } from "@/enums/misc";
 
 export type SignInScreenProps = {};
 
 const SignInScreen: FC<SignInScreenProps> = () => {
+  const router = useRouter();
+
+  const handleSignIn = useCallback(() => {
+    router.push(AppRoutes.HOME.build());
+  }, [router]);
+
   return (
     <NTView style={styles.container}>
       <NTText>This is the Sign In screen</NTText>
+      <NTButton title="Sign In" onPress={handleSignIn} />
     </NTView>
   );
 };
