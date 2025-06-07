@@ -6,4 +6,7 @@ export enum ScreenNames {
   /* (without-session) */
   WELCOME = 'welcome',
   SIGNIN = 'signIn',
+
+  /* (with-session) */
+  HOME = 'home',
 }
