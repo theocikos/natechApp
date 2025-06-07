@@ -1,6 +1,6 @@
-import type { Href, Route, RouteSegments } from 'expo-router';
+import type { Href, Route, RouteSegments } from "expo-router";
 
-import { ScreenNames } from './ScreenNames';
+import { ScreenNames } from "./ScreenNames";
 
 type AppRoute = {
   name: ScreenNames;
@@ -16,7 +16,15 @@ export const AppRoutes = {
   /* Root level */
   NOT_FOUND: {
     name: ScreenNames.NOT_FOUND,
-    segments: ['+not-found'],
-    build: () => '/+not-found',
+    segments: ["+not-found"],
+    build: () => "/+not-found",
   },
+
+  /* (without-session) */
+  WELCOME: {
+    name: ScreenNames.WELCOME,
+    segments: ["welcome"],
+    build: () => ({ pathname: "/(without-session)/welcome" }),
+  },
+
 } satisfies AppRoutesMap;
