@@ -46,6 +46,7 @@ const WelcomeScreen: FC<WelcomeScreenProps> = () => {
             onPress={handleGetStarted}
             style={styles.button}
             accessibilityLabel="Get started with Bolt Banking"
+            accessibilityRole="button"
           />
 
           <View style={styles.footer}>
