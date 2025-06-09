@@ -1,16 +1,17 @@
-import { Image, ImageProps } from "expo-image";
 import { FC } from "react";
 
 import { ImageSetName } from "@/enums/ui";
 import { getImagePath } from "@/utils/ui";
+import { NTImage, NTImageProps } from "../native";
 
-export type NTImageProps = Omit<ImageProps, "source"> & {
+export type ImageProps = Omit<NTImageProps, "source"> & {
   readonly name: ImageSetName;
 };
 
-const NTImage: FC<NTImageProps> = ({ name, ...rest }) => {
-  return <Image {...rest} source={getImagePath(name)} />;
+const Image: FC<ImageProps> = ({ name, ...rest }) => {
+  return <NTImage {...rest} source={getImagePath(name)} />;
 };
-NTImage.displayName = "NTImage";
 
-export { NTImage };
+Image.displayName = "Image";
+
+export { Image };
