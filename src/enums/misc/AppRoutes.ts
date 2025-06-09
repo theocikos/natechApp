@@ -19,7 +19,11 @@ export const AppRoutes = {
     segments: ["+not-found"],
     build: () => "/+not-found",
   },
-
+  INDEX: {
+    name: ScreenNames.INDEX,
+    segments: [],
+    build: () => ({ pathname: '/' }),
+  },
   /* (without-session) */
   WELCOME: {
     name: ScreenNames.WELCOME,
@@ -35,7 +39,7 @@ export const AppRoutes = {
   /** (with-session) */
   HOME: {
     name: ScreenNames.HOME,
-    segments: ["home"],
-    build: () => ({ pathname: "/(with-session)/home" }),
+    segments: ['(with-session)', '(tabs)', '(home)'],
+    build: () => ({ pathname: "/(with-session)/(tabs)/(home)" }),
   },
 } satisfies AppRoutesMap;
