@@ -1,4 +1,4 @@
-import { CreateSessionWithPassword } from "@/contexts/session/application";
+import { CreateSessionWithPassword, EndSession } from "@/contexts/session/application";
 import { FetchSessionRepository } from "@/contexts/session/infrastructure";
 import { AsyncStorageService } from "@/contexts/shared/infrastructure";
 
@@ -11,6 +11,7 @@ class NTContainer {
   // Session
   private sessionRepository: FetchSessionRepository;
   private _createSessionWithPassword: CreateSessionWithPassword;
+  private _endSession: EndSession;
 
   private constructor() {
     this.storageService = new AsyncStorageService();
@@ -19,6 +20,7 @@ class NTContainer {
     this._createSessionWithPassword = new CreateSessionWithPassword(
       this.sessionRepository
     );
+    this._endSession = new EndSession(this.sessionRepository);
   }
 
   public static getInstance(): NTContainer {
@@ -31,6 +33,9 @@ class NTContainer {
   // Session getters
   get createSessionWithPassword() {
     return this._createSessionWithPassword;
+  }
+  get endSession() {
+    return this._endSession;
   }
 }
 
