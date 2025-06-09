@@ -1,8 +1,8 @@
+import { Image, ImageProps } from "expo-image";
 import { FC } from "react";
 
 import { ImageSetName } from "@/enums/ui";
 import { getImagePath } from "@/utils/ui";
-import { Image, ImageProps } from "expo-image";
 
 export type NTImageProps = Omit<ImageProps, "source"> & {
   readonly name: ImageSetName;
