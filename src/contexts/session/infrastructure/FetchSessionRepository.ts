@@ -35,7 +35,6 @@ export class FetchSessionRepository implements SessionRepository {
         "session",
         JSON.stringify(session)
       );
-      console.log("Session created:", session);
       return session;
     }
 
@@ -45,5 +44,17 @@ export class FetchSessionRepository implements SessionRepository {
   async logout(sessionId: string): Promise<void> {
     console.log("Logging out session:", sessionId);
     await this.storageService.removeSecureItem("session");
+  }
+
+  async getSession(): Promise<Session | null> {
+    const sessionData = await this.storageService.getSecureItem("session");
+    if (sessionData) {
+      const session = JSON.parse(sessionData);
+      console.log("Session fetched from storage:", session);
+      return Session.create(session);
+    }
+
+    console.log("No session found in storage");
+    return null;
   }
 }
