@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Session } from "@/contexts/session/domain";
 import { AppRoutes } from "@/enums/misc";
 import { container } from "@/nucleus/Container";
-import * as SecureStore from "expo-secure-store";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -68,14 +67,13 @@ const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     const getAuthState = async () => {
       try {
-        const value = await SecureStore.getItemAsync("session");
-        if (value !== null) {
-          const session = JSON.parse(value);
-          setIsAuthenticated(!!session.accessToken);
-          console.log("Session fetched from storage:", session);
+        const result = await container.getSession.execute();
+        if (result !== null) {
+          setSession(result);
+          setIsAuthenticated(!!result?.getAccessToken());
         }
       } catch (error) {
-        console.log("Error fetching session from storage", error);
+        setError(error instanceof Error ? error.message : "Failed to fetch session");
       }
       setIsReady(true);
     };
