@@ -1,4 +1,4 @@
-import { AsyncStorageService } from "@/contexts/shared/infrastructure/AsyncStorageService";
+import { AsyncStorageService } from "@/contexts/shared/infrastructure";
 
 import { Session, SessionRepository } from "../domain";
 
