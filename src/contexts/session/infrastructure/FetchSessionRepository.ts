@@ -42,7 +42,8 @@ export class FetchSessionRepository implements SessionRepository {
     throw new Error("Invalid credentials");
   }
 
-  async logout(): Promise<void> {
+  async logout(sessionId: string): Promise<void> {
+    console.log("Logging out session:", sessionId);
     await this.storageService.removeSecureItem("session");
   }
 }
