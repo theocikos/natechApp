@@ -1,23 +1,27 @@
-import { useRouter } from "expo-router";
 import { FC, useCallback } from "react";
 import { StyleSheet } from "react-native";
 
 import { NTButton, NTText, NTView } from "@/components/native";
-import { AppRoutes } from "@/enums/misc";
+import { useSessionContext } from "@/nucleus";
 
 export type SignInScreenProps = {};
 
 const SignInScreen: FC<SignInScreenProps> = () => {
-  const router = useRouter();
-
+  const { signIn, isLoading } = useSessionContext();
   const handleSignIn = useCallback(() => {
-    router.push(AppRoutes.HOME.build());
-  }, [router]);
-
+    signIn("theodosis44@gmail.com", "password");
+  }, [signIn]);
+  
   return (
     <NTView style={styles.container}>
-      <NTText>This is the Sign In screen</NTText>
-      <NTButton title="Sign In" onPress={handleSignIn} />
+      {isLoading ? (
+        <NTText>Loading...</NTText>
+      ) : (
+        <>
+          <NTText>This is the Sign In screen</NTText>
+          <NTButton title="Sign In" onPress={handleSignIn} />
+        </>
+      )}
     </NTView>
   );
 };
