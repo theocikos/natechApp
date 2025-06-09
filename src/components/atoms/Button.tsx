@@ -1,5 +1,6 @@
 import React from "react";
 import {
+    ActivityIndicator,
     GestureResponderEvent,
     Pressable,
     PressableProps,
@@ -12,10 +13,17 @@ import { NTText, NTView } from "../native";
 type ButtonProps = PressableProps & {
   title: string;
   style?: StyleProp<ViewStyle> | undefined;
+  isLoading?: boolean;
   onPress: (event: GestureResponderEvent) => void;
 };
 
-const Button: React.FC<ButtonProps> = ({ title, style, onPress, ...rest }) => {
+const Button: React.FC<ButtonProps> = ({
+  title,
+  style,
+  onPress,
+  isLoading,
+  ...rest
+}) => {
   return (
     <NTView style={[styles.container, style]}>
       <Pressable
@@ -23,7 +31,11 @@ const Button: React.FC<ButtonProps> = ({ title, style, onPress, ...rest }) => {
         onPress={onPress}
         style={({ pressed }) => [styles.button, pressed && styles.pressed]}
       >
-        <NTText style={styles.text}>{title}</NTText>
+        {isLoading ? (
+          <ActivityIndicator color="white" size="small" />
+        ) : (
+          <NTText style={styles.text}>{title}</NTText>
+        )}
       </Pressable>
     </NTView>
   );
