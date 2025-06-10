@@ -1,7 +1,7 @@
 import { SplashScreen, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
-import { Session } from "@/contexts/session/domain";
+import { Session, Transaction } from "@/contexts/session/domain";
 import { AppRoutes } from "@/enums/misc";
 import { container } from "@/nucleus/Container";
 
@@ -13,12 +13,13 @@ export type UseSessionType = {
   isLoading: boolean;
   error: string | null;
   signIn: (email: string, password: string) => void;
+  updateSession: (transaction: Transaction) => Promise<void>;
   logOut: () => void;
   session: Session | null;
 };
 
 export function useSession(): UseSessionType {
-const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
@@ -64,6 +65,28 @@ const [isReady, setIsReady] = useState(false);
     }
   }, [router, session]);
 
+  const updateSession = useCallback(
+    async (transaction: Transaction) => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const updatedSession = await container.updateSession.execute(
+          transaction
+        );
+        setSession(updatedSession);
+        router.replace(AppRoutes.WELCOME.build());
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Update session failed");
+        router.replace(AppRoutes.WELCOME.build());
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [router]
+  );
+
   useEffect(() => {
     const getAuthState = async () => {
       try {
@@ -73,7 +96,9 @@ const [isReady, setIsReady] = useState(false);
           setIsAuthenticated(!!result?.getAccessToken());
         }
       } catch (error) {
-        setError(error instanceof Error ? error.message : "Failed to fetch session");
+        setError(
+          error instanceof Error ? error.message : "Failed to fetch session"
+        );
       }
       setIsReady(true);
     };
@@ -94,5 +119,6 @@ const [isReady, setIsReady] = useState(false);
     error,
     signIn,
     logOut,
+    updateSession,
   };
 }
