@@ -1,10 +1,11 @@
 import { router } from "expo-router";
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
 import { Button, NavBar } from "@/components/atoms";
 import { NTText, NTView } from "@/components/native";
 import { ScreenTemplate } from "@/components/templates";
+import { useSessionContext } from "@/nucleus";
 import { formatCurrency } from "@/utils/ui";
 
 type ReviewTransactionProps = {
@@ -19,10 +20,19 @@ const ReviewTransactionScreen: FC<ReviewTransactionProps> = ({
   transaction,
 }) => {
   const { amount, recipient, recipientName, reference } = transaction;
-  const handleConfirm = () => {
-    // TODO: Implement transaction confirmation logic
+  const { updateSession } = useSessionContext();
+  const handleCancel = useCallback(() => {
     router.back();
-  };
+  }, []);
+
+  const hanndleTransaction = useCallback(() => {
+    updateSession({
+      amount: parseFloat(amount),
+      reference: reference || "",
+      recipient,
+      recipientName,
+    });
+  }, [amount, recipient, recipientName, reference, updateSession]);
 
   return (
     <ScreenTemplate includeHorizontalPadding style={styles.container}>
@@ -52,12 +62,9 @@ const ReviewTransactionScreen: FC<ReviewTransactionProps> = ({
           </NTView>
         )}
 
-        <Button title="Confirm Transaction" onPress={handleConfirm} />
+        <Button title="Confirm Transaction" onPress={hanndleTransaction} />
 
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={() => router.back()}
-        >
+        <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
           <NTText style={styles.cancelButtonText}>Cancel</NTText>
         </TouchableOpacity>
       </NTView>
