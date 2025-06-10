@@ -1,25 +1,25 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React, { FC, useCallback } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
-import { Button } from "@/components/atoms";
-import { Input } from "@/components/atoms/Input";
+import { Button, Input, NavBar } from "@/components/atoms";
+import { NTView } from "@/components/native";
+import { ScreenTemplate } from "@/components/templates";
 import { useSessionContext } from "@/nucleus";
 import { LoginFormValues, loginSchema } from "@/utils/ui/validation";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "expo-router";
-import { Controller, useForm } from "react-hook-form";
-import Animated, { FadeInUp } from "react-native-reanimated";
+
 export type SignInScreenProps = {};
 
 const SignInScreen: FC<SignInScreenProps> = () => {
@@ -47,7 +47,7 @@ const SignInScreen: FC<SignInScreenProps> = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenTemplate includeHorizontalPadding style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardAvoidView}
@@ -56,25 +56,17 @@ const SignInScreen: FC<SignInScreenProps> = () => {
           contentContainerStyle={styles.scrollView}
           keyboardShouldPersistTaps="handled"
         >
-          <View style={styles.header}>
-            <TouchableOpacity
-              onPress={() => router.back()}
-              style={styles.backButton}
-              accessibilityLabel="Go back"
-              accessibilityRole="button"
-            >
-              <MaterialCommunityIcons name="arrow-left" size={20} />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Log In</Text>
-          </View>
+          <NavBar text="Sign In" />
           <Animated.View
             style={styles.formContainer}
             entering={FadeInUp.duration(600).delay(300)}
           >
-            <Text style={styles.formTitle}>Welcome back</Text>
-            <Text style={styles.formSubtitle}>
-              Please sign in to your account
-            </Text>
+            <NTView style={{ gap: 4 }}>
+              <Text style={styles.formTitle}>Welcome back</Text>
+              <Text style={styles.formSubtitle}>
+                Please sign in to your account
+              </Text>
+            </NTView>
 
             {error && (
               <View style={styles.errorContainer}>
@@ -134,7 +126,6 @@ const SignInScreen: FC<SignInScreenProps> = () => {
               title="Log In"
               onPress={handleSubmit(handleSignIn)}
               isLoading={isLoading}
-              style={styles.loginButton}
             />
 
             <View style={styles.footer}>
@@ -150,7 +141,7 @@ const SignInScreen: FC<SignInScreenProps> = () => {
           </Animated.View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </ScreenTemplate>
   );
 };
 
@@ -164,75 +155,54 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
-    paddingHorizontal: 24,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: 16,
-    marginBottom: 32,
-  },
-  backButton: {
-    marginRight: 16,
-  },
-  headerTitle: {
-    fontWeight: "bold",
-    fontSize: 18,
-    color: "#333",
+    gap: 16,
   },
   formContainer: {
     flex: 1,
+    gap: 16,
   },
   formTitle: {
-    fontFamily: "Inter-Bold",
-    fontSize: 28,
+    fontSize: 20,
     color: "#333",
-    marginBottom: 8,
   },
   formSubtitle: {
-    fontFamily: "Inter-Regular",
+    fontWeight: "regular",
     fontSize: 16,
     color: "#666",
-    marginBottom: 32,
+  },
+  inputsContainer: {
+    gap: 8,
   },
   errorContainer: {
     backgroundColor: "#FFEEEE",
     borderRadius: 8,
     padding: 12,
-    marginBottom: 16,
   },
   errorText: {
     fontWeight: "bold",
     color: "#FF3B30",
     fontSize: 14,
   },
-  inputsContainer: {
-    marginBottom: 16,
-  },
   forgotPassword: {
     alignSelf: "flex-end",
-    marginBottom: 24,
   },
   forgotPasswordText: {
     fontWeight: "bold",
     color: "#225870",
     fontSize: 14,
   },
-  loginButton: {
-    marginBottom: 24,
-  },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 32,
+    gap: 8,
   },
   footerText: {
-    fontFamily: "Inter-Regular",
+    fontWeight: "regular",
     color: "#666",
     fontSize: 14,
   },
   signUpText: {
-    fontFamily: "Inter-SemiBold",
+    fontWeight: "semibold",
     color: "#225870",
     fontSize: 14,
   },

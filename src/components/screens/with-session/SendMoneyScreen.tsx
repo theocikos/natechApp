@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
-import { Button, Input } from "@/components/atoms";
+import { Button, Input, NavBar } from "@/components/atoms";
 import { NTText, NTView } from "@/components/native";
 import { ScreenTemplate } from "@/components/templates";
 import { formatCurrency, formatIBAN } from "@/utils/ui";
@@ -60,7 +60,11 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
   );
 
   return (
-    <ScreenTemplate includeHorizontalPadding style={styles.container}>
+    <ScreenTemplate
+      includeHorizontalPadding
+      avoidBottomInset
+      style={styles.container}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardAvoidView}
@@ -69,16 +73,7 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
           contentContainerStyle={styles.scrollView}
           keyboardShouldPersistTaps="handled"
         >
-          <NTView style={styles.header}>
-            <TouchableOpacity
-              onPress={() => router.back()}
-              accessibilityLabel="Go back"
-              accessibilityRole="button"
-            >
-              <MaterialCommunityIcons name="arrow-left" size={20} />
-            </TouchableOpacity>
-            <NTText style={styles.headerTitle}>Send Money</NTText>
-          </NTView>
+         <NavBar text="Send Money" />
 
           <Animated.View
             style={styles.formContainer}
@@ -126,9 +121,7 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
                     onChange(text.trim());
                   }}
                   error={errors.recipient?.name?.message}
-                  leftIcon={
-                    <MaterialCommunityIcons name="account" size={20} />
-                  }
+                  leftIcon={<MaterialCommunityIcons name="account" size={20} />}
                   autoCapitalize="words"
                 />
               )}
@@ -238,7 +231,17 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
             <Button
               title="Continue"
               onPress={() => {
-                console.log('i was pressed');
+                router.push({
+                  pathname: "/review-transaction",
+                  params: {
+                    amount: control._formValues.amount,
+                    recipient:
+                      transferMethod === "iban"
+                        ? control._formValues.recipient.iban
+                        : control._formValues.recipient.phoneNumber,
+                    description: control._formValues.reference || undefined,
+                  },
+                });
               }}
               disabled={amount <= 0 || amount > userBalance}
             />

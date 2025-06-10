@@ -7,20 +7,27 @@ import { NTView, NTViewProps } from "../native";
 export type ScreenTemplateProps = PropsWithChildren<
   NTViewProps & {
     readonly includeHorizontalPadding?: boolean;
+    readonly avoidBottomInset?: boolean;
   }
 >;
 const ScreenTemplate: FC<ScreenTemplateProps> = (props) => {
-  const { children, style, includeHorizontalPadding, ...rest } = props;
+  const {
+    children,
+    style,
+    includeHorizontalPadding,
+    avoidBottomInset,
+    ...rest
+  } = props;
   const insets = useSafeAreaInsets();
   return (
     <NTView
-    {...rest}
+      {...rest}
       style={[
         styles.container,
         style,
         {
           paddingTop: insets.top,
-          paddingBottom: insets.bottom,
+          paddingBottom: avoidBottomInset ? 0 : insets.bottom,
         },
         {
           paddingHorizontal: includeHorizontalPadding ? 24 : 0,
