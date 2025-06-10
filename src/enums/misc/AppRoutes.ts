@@ -56,13 +56,21 @@ export const AppRoutes = {
     name: ScreenNames.REVIEW_TRANSACTION,
     segments: ["(with-session)", "(tabs)", "(home)", "review-transaction"],
     build: (transaction: {
-      amount: number;
+      amount: string;
       recipient: string;
       recipientName: string;
       reference?: string;
     }) => ({
       pathname: "/(with-session)/(tabs)/(home)/review-transaction",
       params: transaction,
+    }),
+  },
+  FEEDBACK: {
+    name: ScreenNames.FEEDBACK,
+    segments: ["(with-session)", "(tabs)", "(home)", "feedback"],
+    build: (amount: string, state: "success" | "error") => ({
+      pathname: "/(with-session)/(tabs)/(home)/feedback",
+      params: { amount, state },
     }),
   },
 } satisfies AppRoutesMap;

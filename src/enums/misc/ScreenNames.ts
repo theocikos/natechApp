@@ -12,4 +12,5 @@ export enum ScreenNames {
   SETTINGS = "settings",
   SEND_MONEY = "send-money",
   REVIEW_TRANSACTION = "review-transaction",
+  FEEDBACK = "feedback",
 }
