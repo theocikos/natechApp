@@ -12,13 +12,13 @@ type ReviewTransactionProps = {
     amount: string;
     recipient: string;
     recipientName: string;
-    description?: string;
+    reference?: string;
   };
 };
 const ReviewTransactionScreen: FC<ReviewTransactionProps> = ({
   transaction,
 }) => {
-  const { amount, recipient, recipientName, description } = transaction;
+  const { amount, recipient, recipientName, reference } = transaction;
   const handleConfirm = () => {
     // TODO: Implement transaction confirmation logic
     router.back();
@@ -45,10 +45,10 @@ const ReviewTransactionScreen: FC<ReviewTransactionProps> = ({
           <NTText style={styles.value}>{recipientName}</NTText>
         </NTView>
 
-        {description && (
+        {reference && (
           <NTView style={styles.section}>
             <NTText style={styles.label}>Description</NTText>
-            <NTText style={styles.value}>{description}</NTText>
+            <NTText style={styles.value}>{reference}</NTText>
           </NTView>
         )}
 

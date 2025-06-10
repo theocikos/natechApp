@@ -6,15 +6,15 @@ type ReviewTransactionScreenParams = {
   amount: string;
   recipient: string;
   recipientName: string;
-  description?: string;
+  reference?: string;
 };
 
 export default function ExpoRouterReviewTransactionScreen() {
-  const { amount, recipient, recipientName, description } =
+  const { amount, recipient, recipientName, reference } =
     useLocalSearchParams<ReviewTransactionScreenParams>();
   return (
     <ReviewTransactionScreen
-      transaction={{ amount, recipient, recipientName, description }}
+      transaction={{ amount, recipient, recipientName, reference }}
     />
   );
 }
