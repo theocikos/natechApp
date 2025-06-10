@@ -11,10 +11,10 @@ import {
 import { NTText, NTView } from "../native";
 
 type ButtonProps = PressableProps & {
-  title: string;
-  style?: StyleProp<ViewStyle> | undefined;
-  isLoading?: boolean;
-  onPress: (event: GestureResponderEvent) => void;
+  readonly title: string;
+  readonly style?: StyleProp<ViewStyle> | undefined;
+  readonly isLoading?: boolean;
+  readonly onPress: (event: GestureResponderEvent) => void;
 };
 
 const Button: React.FC<ButtonProps> = ({

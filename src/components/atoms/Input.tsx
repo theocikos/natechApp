@@ -12,13 +12,13 @@ import {
 } from "react-native";
 
 interface InputProps extends TextInputProps {
-  label?: string;
-  error?: string;
-  helperText?: string;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  containerStyle?: StyleProp<ViewStyle>;
-  showPasswordToggle?: boolean;
+  readonly label?: string;
+  readonly error?: string;
+  readonly helperText?: string;
+  readonly leftIcon?: React.ReactNode;
+  readonly rightIcon?: React.ReactNode;
+  readonly containerStyle?: StyleProp<ViewStyle>;
+  readonly showPasswordToggle?: boolean;
 }
 
 export const Input = forwardRef<TextInput, InputProps>(
