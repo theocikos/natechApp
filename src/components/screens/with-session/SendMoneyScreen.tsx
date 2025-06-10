@@ -17,6 +17,7 @@ import { Button, Input, NavBar } from "@/components/atoms";
 import { NTText, NTView } from "@/components/native";
 import { ScreenTemplate } from "@/components/templates";
 import { AppRoutes } from "@/enums/misc";
+import { useSessionContext } from "@/nucleus";
 import { formatCurrency, formatIBAN } from "@/utils/ui";
 import {
   MoneyTransferFormValues,
@@ -29,20 +30,21 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
   const [transferMethod, setTransferMethod] = useState<"iban" | "phone">(
     "iban"
   );
-  const userBalance = 1000; // Replace
-  const amount = 1000; // Replace
+  const { session } = useSessionContext();
+  const userBalance = session?.toPrimitives().userSnippet.balance || 0;
   const {
     control,
     formState: { errors },
+    handleSubmit,
     setValue,
   } = useForm<MoneyTransferFormValues>({
-    resolver: zodResolver(moneyTransferSchema),
+    resolver: zodResolver(moneyTransferSchema(userBalance)),
     defaultValues: {
       amount: 0,
       recipient: {
         name: "",
-        iban: "",
-        phoneNumber: "",
+        iban: undefined,
+        phoneNumber: undefined,
       },
       reference: "",
     },
@@ -52,14 +54,25 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
     (method: "iban" | "phone") => {
       setTransferMethod(method);
       if (method === "iban") {
-        setValue("recipient.phoneNumber", "");
+        setValue("recipient.phoneNumber", undefined);
       } else {
-        setValue("recipient.iban", "");
+        setValue("recipient.iban", undefined);
       }
     },
     [setValue]
   );
 
+  const onSubmit = useCallback((data: MoneyTransferFormValues) => {
+    const transactionRequest = {
+      amount: data.amount,
+      recipient: data.recipient.iban
+        ? data.recipient.iban.trim()
+        : data.recipient.phoneNumber?.trim() || "",
+      recipientName: data.recipient.name.trim(),
+      reference: data?.reference,
+    };
+    router.push(AppRoutes.REVIEW_TRANSACTION.build(transactionRequest));
+  }, []);
   return (
     <ScreenTemplate
       includeHorizontalPadding
@@ -100,9 +113,7 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
                   }}
                   keyboardType="decimal-pad"
                   error={
-                    errors.amount?.message || amount > userBalance
-                      ? "Amount exceeds available balance"
-                      : undefined
+                    errors.amount?.message
                   }
                   leftIcon={
                     <MaterialCommunityIcons name="currency-usd" size={20} />
@@ -229,23 +240,7 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
               )}
             />
 
-            <Button
-              title="Continue"
-              onPress={() => {
-                router.push(
-                  AppRoutes.REVIEW_TRANSACTION.build({
-                    amount: control._formValues.amount,
-                    recipient:
-                      transferMethod === "iban"
-                        ? control._formValues.recipient.iban
-                        : control._formValues.recipient.phoneNumber,
-                    recipientName: control._formValues.recipient.name,
-                    reference: control._formValues.reference || undefined,
-                  })
-                );
-              }}
-              disabled={amount <= 0 || amount > userBalance}
-            />
+            <Button title="Continue" onPress={handleSubmit(onSubmit)} />
           </Animated.View>
         </ScrollView>
       </KeyboardAvoidingView>

@@ -7,6 +7,7 @@ export function formatCurrency(amount: number, currency: string = '$'): string {
 }
 
 export function formatIBAN(value: string): string {
+  if (!value) return '';
   const cleaned = value.replace(/\s/g, '').toUpperCase();
   const formatted = cleaned.replace(/(.{4})/g, '$1 ').trim();
   
