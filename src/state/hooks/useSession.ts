@@ -75,10 +75,10 @@ export function useSession(): UseSessionType {
           transaction
         );
         setSession(updatedSession);
-        router.replace(AppRoutes.WELCOME.build());
+        router.replace(AppRoutes.FEEDBACK.build(transaction.amount.toString(), "success"));
       } catch (err) {
         setError(err instanceof Error ? err.message : "Update session failed");
-        router.replace(AppRoutes.WELCOME.build());
+        router.replace(AppRoutes.FEEDBACK.build(transaction.amount.toString(), "error"));
         throw err;
       } finally {
         setIsLoading(false);
