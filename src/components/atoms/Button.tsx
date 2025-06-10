@@ -1,12 +1,12 @@
 import React from "react";
 import {
-    ActivityIndicator,
-    GestureResponderEvent,
-    Pressable,
-    PressableProps,
-    StyleProp,
-    StyleSheet,
-    ViewStyle,
+  ActivityIndicator,
+  GestureResponderEvent,
+  Pressable,
+  PressableProps,
+  StyleProp,
+  StyleSheet,
+  ViewStyle,
 } from "react-native";
 import { NTText, NTView } from "../native";
 
@@ -21,15 +21,18 @@ const Button: React.FC<ButtonProps> = ({
   title,
   style,
   onPress,
+  disabled,
   isLoading,
   ...rest
 }) => {
+  const disabledStyle = disabled ? { opacity: 0.5 } : {};
   return (
     <NTView style={[styles.container, style]}>
       <Pressable
         {...rest}
+        disabled={disabled || isLoading}
         onPress={onPress}
-        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+        style={({ pressed }) => [styles.button, pressed && styles.pressed, disabledStyle]}
       >
         {isLoading ? (
           <ActivityIndicator color="white" size="small" />
