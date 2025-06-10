@@ -4,11 +4,12 @@ export enum ScreenNames {
   INDEX = "index",
 
   /* (without-session) */
-  WELCOME = 'welcome',
-  SIGNIN = 'signIn',
+  WELCOME = "welcome",
+  SIGNIN = "signIn",
 
   /* (with-session) */
-  HOME = 'home',
-  SETTINGS= 'settings',
-  SEND_MONEY = 'send-money',
+  HOME = "home",
+  SETTINGS = "settings",
+  SEND_MONEY = "send-money",
+  REVIEW_TRANSACTION = "review-transaction",
 }

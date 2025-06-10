@@ -52,4 +52,9 @@ export const AppRoutes = {
     segments: ['(with-session)', '(tabs)', '(home)', 'send-money'],
     build: () => ({ pathname: "/(with-session)/(tabs)/(home)/send-money" }),
   },
+  REVIEW_TRANSACTION: {
+    name: ScreenNames.REVIEW_TRANSACTION,
+    segments: ['(with-session)', '(tabs)', '(home)', 'review-transaction'],
+    build: () => ({ pathname: "/(with-session)/(tabs)/(home)/review-transaction" }),
+  },
 } satisfies AppRoutesMap;
