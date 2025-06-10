@@ -5,7 +5,7 @@ import { ScreenNames } from "./ScreenNames";
 type AppRoute = {
   name: ScreenNames;
   segments: RouteSegments<Route> | [];
-  build: () => Href;
+  build: (...args: any[]) => Href;
 };
 
 type AppRoutesMap = {
@@ -22,7 +22,7 @@ export const AppRoutes = {
   INDEX: {
     name: ScreenNames.INDEX,
     segments: [],
-    build: () => ({ pathname: '/' }),
+    build: () => ({ pathname: "/" }),
   },
   /* (without-session) */
   WELCOME: {
@@ -39,22 +39,30 @@ export const AppRoutes = {
   /** (with-session) */
   HOME: {
     name: ScreenNames.HOME,
-    segments: ['(with-session)', '(tabs)', '(home)'],
+    segments: ["(with-session)", "(tabs)", "(home)"],
     build: () => ({ pathname: "/(with-session)/(tabs)/(home)" }),
   },
   SETTINGS: {
     name: ScreenNames.SETTINGS,
-    segments: ['(with-session)', '(tabs)', 'settings'],
+    segments: ["(with-session)", "(tabs)", "settings"],
     build: () => ({ pathname: "/(with-session)/(tabs)/settings" }),
   },
   SEND_MONEY: {
     name: ScreenNames.SEND_MONEY,
-    segments: ['(with-session)', '(tabs)', '(home)', 'send-money'],
+    segments: ["(with-session)", "(tabs)", "(home)", "send-money"],
     build: () => ({ pathname: "/(with-session)/(tabs)/(home)/send-money" }),
   },
   REVIEW_TRANSACTION: {
     name: ScreenNames.REVIEW_TRANSACTION,
-    segments: ['(with-session)', '(tabs)', '(home)', 'review-transaction'],
-    build: () => ({ pathname: "/(with-session)/(tabs)/(home)/review-transaction" }),
+    segments: ["(with-session)", "(tabs)", "(home)", "review-transaction"],
+    build: (transaction: {
+      amount: number;
+      recipient: string;
+      recipientName: string;
+      reference?: string;
+    }) => ({
+      pathname: "/(with-session)/(tabs)/(home)/review-transaction",
+      params: transaction,
+    }),
   },
 } satisfies AppRoutesMap;
