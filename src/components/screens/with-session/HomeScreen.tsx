@@ -8,6 +8,7 @@ import { NTText, NTView } from "@/components/native";
 import { ScreenTemplate } from "@/components/templates";
 import { AppRoutes } from "@/enums/misc";
 import { useSessionContext } from "@/nucleus";
+import { formatCurrency } from "@/utils/ui";
 import { router } from "expo-router";
 
 export type HomeScreenProps = {};
@@ -18,13 +19,6 @@ const HomeScreen: FC<HomeScreenProps> = () => {
   const toggleBalanceVisibility = useCallback(() => {
     setHideBalance(!hideBalance);
   }, [hideBalance]);
-
-  const formatCurrency = useCallback((amount: number) => {
-    return `$${amount.toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
-  }, []);
 
   const handleSendMoney = useCallback(() => {
     router.push(AppRoutes.SEND_MONEY.build());

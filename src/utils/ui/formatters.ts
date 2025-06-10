@@ -5,3 +5,10 @@ export function formatCurrency(amount: number, currency: string = '$'): string {
     maximumFractionDigits: 2 
   })}`;
 }
+
+export function formatIBAN(value: string): string {
+  const cleaned = value.replace(/\s/g, '').toUpperCase();
+  const formatted = cleaned.replace(/(.{4})/g, '$1 ').trim();
+  
+  return formatted;
+}
