@@ -16,6 +16,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import { Button, Input, NavBar } from "@/components/atoms";
 import { NTText, NTView } from "@/components/native";
 import { ScreenTemplate } from "@/components/templates";
+import { AppRoutes } from "@/enums/misc";
 import { formatCurrency, formatIBAN } from "@/utils/ui";
 import {
   MoneyTransferFormValues,
@@ -73,7 +74,7 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
           contentContainerStyle={styles.scrollView}
           keyboardShouldPersistTaps="handled"
         >
-         <NavBar text="Send Money" />
+          <NavBar text="Send Money" />
 
           <Animated.View
             style={styles.formContainer}
@@ -231,17 +232,17 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
             <Button
               title="Continue"
               onPress={() => {
-                router.push({
-                  pathname: "/review-transaction",
-                  params: {
+                router.push(
+                  AppRoutes.REVIEW_TRANSACTION.build({
                     amount: control._formValues.amount,
                     recipient:
                       transferMethod === "iban"
                         ? control._formValues.recipient.iban
                         : control._formValues.recipient.phoneNumber,
-                    description: control._formValues.reference || undefined,
-                  },
-                });
+                    recipientName: control._formValues.recipient.name,
+                    reference: control._formValues.reference || undefined,
+                  })
+                );
               }}
               disabled={amount <= 0 || amount > userBalance}
             />
