@@ -1,10 +1,11 @@
 import { useRouter } from "expo-router";
 import { FC, useCallback } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import { Button, Image } from "@/components/atoms";
 import { NTView } from "@/components/native";
+import { ScreenTemplate } from "@/components/templates";
 import { AppRoutes } from "@/enums/misc";
 import { ImageSetName } from "@/enums/ui";
 
@@ -18,7 +19,7 @@ const WelcomeScreen: FC<WelcomeScreenProps> = () => {
   }, [router]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenTemplate style={styles.container}>
       <Animated.View
         style={styles.logoContainer}
         entering={FadeInDown.delay(200).duration(800)}
@@ -34,7 +35,7 @@ const WelcomeScreen: FC<WelcomeScreenProps> = () => {
           entering={FadeInDown.delay(400).duration(800)}
           style={styles.textContainer}
         >
-          <Text style={styles.title}>Bolt Banking</Text>
+          <Text style={styles.title}>Natech Banking</Text>
           <Text style={styles.subtitle}>
             Fast, secure, and effortless money transfers at your fingertips
           </Text>
@@ -45,7 +46,7 @@ const WelcomeScreen: FC<WelcomeScreenProps> = () => {
             title="Get Started"
             onPress={handleGetStarted}
             style={styles.button}
-            accessibilityLabel="Get started with Bolt Banking"
+            accessibilityLabel="Get started with Natech Banking"
             accessibilityRole="button"
           />
 
@@ -57,7 +58,7 @@ const WelcomeScreen: FC<WelcomeScreenProps> = () => {
           </View>
         </Animated.View>
       </NTView>
-    </SafeAreaView>
+    </ScreenTemplate>
   );
 };
 

@@ -16,7 +16,7 @@ export class FetchSessionRepository implements SessionRepository {
   async signInWithPassword(email: string, password: string): Promise<Session> {
     try {
       // TODO: Make this a class and handle no network connection
-      const response = await fetch("https://httpstat.us/200");
+      const response = await fetch("https://speed.cloudflare.com/");
       if (response.status === 200) {
         if (email === MOCK_USER.email && password === "password") {
           const session = Session.create({
@@ -51,7 +51,7 @@ export class FetchSessionRepository implements SessionRepository {
 
   async logout(sessionId: string): Promise<void> {
     try {
-      const response = await fetch("https://httpstat.us/200");
+      const response = await fetch("https://speed.cloudflare.com/");
       if (response.status === 200) {
         await this.storageService.removeSecureItem("session");
       } else {
@@ -76,7 +76,7 @@ export class FetchSessionRepository implements SessionRepository {
 
   async updateSession(transaction: Transaction): Promise<Session | null> {
     try {
-      const response = await fetch("https://httpstat.us/200");
+      const response = await fetch("https://speed.cloudflare.com/");
       if (response.status === 200) {
         const sessionData = await this.storageService.getSecureItem("session");
 
