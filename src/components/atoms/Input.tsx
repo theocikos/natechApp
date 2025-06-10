@@ -1,15 +1,15 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { forwardRef, useState } from "react";
 import {
-    StyleProp,
-    StyleSheet,
-    Text,
-    TextInput,
-    TextInputProps,
-    TouchableOpacity,
-    View,
-    ViewStyle,
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  ViewStyle
 } from "react-native";
+
+import { NTText, NTView } from "../native";
 
 interface InputProps extends TextInputProps {
   readonly label?: string;
@@ -59,16 +59,16 @@ export const Input = forwardRef<TextInput, InputProps>(
     };
 
     return (
-      <View style={[styles.container, containerStyle]}>
-        {label && <Text style={styles.label}>{label}</Text>}
-        <View
+      <NTView style={[styles.container, containerStyle]}>
+        {label && <NTText style={styles.label}>{label}</NTText>}
+        <NTView
           style={[
             styles.inputContainer,
             error ? styles.inputError : null,
             leftIcon ? { paddingLeft: 40 } : null,
           ]}
         >
-          {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
+          {leftIcon && <NTView style={styles.leftIcon}>{leftIcon}</NTView>}
           <TextInput
             ref={ref}
             style={styles.input}
@@ -80,13 +80,13 @@ export const Input = forwardRef<TextInput, InputProps>(
             {...rest}
           />
           {showPasswordToggle ? renderPasswordIcon() : rightIcon}
-        </View>
+        </NTView>
         {(error || helperText) && (
-          <Text style={[styles.helperText, error ? styles.errorText : null]}>
+          <NTText style={[styles.helperText, error ? styles.errorText : null]}>
             {error || helperText}
-          </Text>
+          </NTText>
         )}
-      </View>
+      </NTView>
     );
   }
 );
