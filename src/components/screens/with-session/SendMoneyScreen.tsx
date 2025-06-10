@@ -64,7 +64,7 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
 
   const onSubmit = useCallback((data: MoneyTransferFormValues) => {
     const transactionRequest = {
-      amount: data.amount,
+      amount: data.amount.toString(),
       recipient: data.recipient.iban
         ? data.recipient.iban.trim()
         : data.recipient.phoneNumber?.trim() || "",
@@ -112,9 +112,7 @@ const SendMoneyScreen: FC<SendMoneyScreenProps> = () => {
                     onChange(numValue);
                   }}
                   keyboardType="decimal-pad"
-                  error={
-                    errors.amount?.message
-                  }
+                  error={errors.amount?.message}
                   leftIcon={
                     <MaterialCommunityIcons name="currency-usd" size={20} />
                   }

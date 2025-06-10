@@ -14,36 +14,51 @@ export class FetchSessionRepository implements SessionRepository {
   constructor(private storageService: AsyncStorageService) {}
 
   async signInWithPassword(email: string, password: string): Promise<Session> {
-    // TODO: Replace with a simulated API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("https://httpstat.us/200");
+      if (response.status === 200) {
+        if (email === MOCK_USER.email && password === "password") {
+          const session = Session.create({
+            id: new Date().toISOString(),
+            accessToken: new Date().toISOString(),
+            userSnippet: {
+              id: new Date().toISOString(),
+              firstName: MOCK_USER.firstName,
+              lastName: MOCK_USER.lastName,
+              email: MOCK_USER.email,
+              phoneNumber: MOCK_USER.phoneNumber,
+              balance: MOCK_USER.balance,
+            },
+          });
 
-    if (email === MOCK_USER.email && password === "password") {
-      const session = Session.create({
-        id: new Date().toISOString(),
-        accessToken: new Date().toISOString(),
-        userSnippet: {
-          id: new Date().toISOString(),
-          firstName: MOCK_USER.firstName,
-          lastName: MOCK_USER.lastName,
-          email: MOCK_USER.email,
-          phoneNumber: MOCK_USER.phoneNumber,
-          balance: MOCK_USER.balance,
-        },
-      });
-
-      await this.storageService.setSecureItem(
-        "session",
-        JSON.stringify(session)
-      );
-      return session;
+          await this.storageService.setSecureItem(
+            "session",
+            JSON.stringify(session)
+          );
+          return session;
+        }
+      } else {
+        console.log("Error: Status code", response.status);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      throw new Error("Network error occurred while signing in");
     }
 
     throw new Error("Invalid credentials");
   }
 
   async logout(sessionId: string): Promise<void> {
-    console.log("Logging out session:", sessionId);
-    await this.storageService.removeSecureItem("session");
+    try {
+      const response = await fetch("https://httpstat.us/200");
+      if (response.status === 200) {
+        await this.storageService.removeSecureItem("session");
+      } else {
+        console.log("Error: Status code", response.status);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error, sessionId);
+    }
   }
 
   async getSession(): Promise<Session | null> {
@@ -59,27 +74,33 @@ export class FetchSessionRepository implements SessionRepository {
   }
 
   async updateSession(transaction: Transaction): Promise<Session | null> {
-    // TODO: Replace with a simulated API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("https://httpstat.us/200");
+      if (response.status === 200) {
+        const sessionData = await this.storageService.getSecureItem("session");
 
-    const sessionData = await this.storageService.getSecureItem("session");
+        if (sessionData) {
+          const session = JSON.parse(sessionData);
+          const updateSession = Session.create({
+            ...session,
+            userSnippet: {
+              ...session.userSnippet,
+              balance: session.userSnippet.balance - transaction.amount,
+            },
+          });
 
-    if (sessionData) {
-      const session = JSON.parse(sessionData);
-      const updateSession = Session.create({
-        ...session,
-        userSnippet: {
-          ...session.userSnippet,
-          balance: session.userSnippet.balance - transaction.amount,
-        },
-      });
+          await this.storageService.setSecureItem(
+            "session",
+            JSON.stringify(updateSession)
+          );
 
-      await this.storageService.setSecureItem(
-        "session",
-        JSON.stringify(updateSession)
-      );
-      
-      return updateSession;
+          return updateSession;
+        }
+      } else {
+        console.log("Error: Status code", response.status);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
     }
     return null;
   }
