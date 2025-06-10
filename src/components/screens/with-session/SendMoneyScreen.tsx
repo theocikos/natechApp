@@ -4,12 +4,12 @@ import { router } from "expo-router";
 import React, { FC, useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    TouchableOpacity,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
@@ -18,8 +18,8 @@ import { NTText, NTView } from "@/components/native";
 import { ScreenTemplate } from "@/components/templates";
 import { formatCurrency, formatIBAN } from "@/utils/ui";
 import {
-    MoneyTransferFormValues,
-    moneyTransferSchema,
+  MoneyTransferFormValues,
+  moneyTransferSchema,
 } from "@/utils/ui/validation";
 
 export type SendMoneyScreenProps = {};
@@ -290,7 +290,6 @@ const styles = StyleSheet.create({
   },
   methodSelector: {
     flexDirection: "row",
-    marginBottom: 16,
     borderRadius: 12,
     backgroundColor: "#F1F5F9",
     padding: 4,
