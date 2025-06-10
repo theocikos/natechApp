@@ -1,6 +1,6 @@
 import { AsyncStorageService } from "@/contexts/shared/infrastructure";
 
-import { Session, SessionRepository } from "../domain";
+import { Session, SessionRepository, Transaction } from "../domain";
 
 const MOCK_USER = {
   firstName: "Theodosis",
@@ -55,6 +55,32 @@ export class FetchSessionRepository implements SessionRepository {
     }
 
     console.log("No session found in storage");
+    return null;
+  }
+
+  async updateSession(transaction: Transaction): Promise<Session | null> {
+    // TODO: Replace with a simulated API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const sessionData = await this.storageService.getSecureItem("session");
+
+    if (sessionData) {
+      const session = JSON.parse(sessionData);
+      const updateSession = Session.create({
+        ...session,
+        userSnippet: {
+          ...session.userSnippet,
+          balance: session.userSnippet.balance - transaction.amount,
+        },
+      });
+
+      await this.storageService.setSecureItem(
+        "session",
+        JSON.stringify(updateSession)
+      );
+      
+      return updateSession;
+    }
     return null;
   }
 }
