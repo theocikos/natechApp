@@ -29,7 +29,7 @@ export default function BottomTabsLayout() {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              name="wheel-barrow"
+              name="bank"
               size={size}
               color={color}
             />
