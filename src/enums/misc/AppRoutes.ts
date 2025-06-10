@@ -42,4 +42,14 @@ export const AppRoutes = {
     segments: ['(with-session)', '(tabs)', '(home)'],
     build: () => ({ pathname: "/(with-session)/(tabs)/(home)" }),
   },
+  SETTINGS: {
+    name: ScreenNames.SETTINGS,
+    segments: ['(with-session)', '(tabs)', 'settings'],
+    build: () => ({ pathname: "/(with-session)/(tabs)/settings" }),
+  },
+  SEND_MONEY: {
+    name: ScreenNames.SEND_MONEY,
+    segments: ['(with-session)', '(tabs)', '(home)', 'send-money'],
+    build: () => ({ pathname: "/(with-session)/(tabs)/(home)/send-money" }),
+  },
 } satisfies AppRoutesMap;

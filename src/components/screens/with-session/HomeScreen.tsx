@@ -1,14 +1,14 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { FC, useCallback, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import Animated, {
-  FadeInUp
-} from "react-native-reanimated";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { Button } from "@/components/atoms";
 import { NTText, NTView } from "@/components/native";
 import { ScreenTemplate } from "@/components/templates";
+import { AppRoutes } from "@/enums/misc";
 import { useSessionContext } from "@/nucleus";
+import { router } from "expo-router";
 
 export type HomeScreenProps = {};
 
@@ -24,6 +24,10 @@ const HomeScreen: FC<HomeScreenProps> = () => {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })}`;
+  }, []);
+
+  const handleSendMoney = useCallback(() => {
+    router.push(AppRoutes.SEND_MONEY.build());
   }, []);
 
   return (
@@ -59,10 +63,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
                   session?.toPrimitives().userSnippet.balance || 0
                 )}
           </NTText>
-            <Button
-              title="Send Money"
-              onPress={() => {}}
-            />
+          <Button title="Send Money" onPress={handleSendMoney} />
         </NTView>
       </Animated.View>
 
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   balanceLabel: {
-  fontWeight: 'medium',
+    fontWeight: "medium",
     fontSize: 16,
     color: "#64748B",
   },

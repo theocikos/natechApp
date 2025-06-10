@@ -9,4 +9,6 @@ export enum ScreenNames {
 
   /* (with-session) */
   HOME = 'home',
+  SETTINGS= 'settings',
+  SEND_MONEY = 'send-money',
 }
